@@ -4,7 +4,8 @@ import springbook.user.domain.User;
 
 import java.sql.*;
 
-public class UserDao {
+
+public abstract class UserDao {
     String url = "jdbc:mysql://localhost:3306/spring";
     String userName = "root";
     String password = "12341234";
@@ -44,7 +45,5 @@ public class UserDao {
         return user;
     }
 
-    private Connection getCollection() throws SQLException {
-        return DriverManager.getConnection(url, userName, password);
-    }
+    public abstract Connection getCollection() throws SQLException;
 }
