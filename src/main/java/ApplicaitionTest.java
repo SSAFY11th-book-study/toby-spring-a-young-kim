@@ -1,4 +1,4 @@
-import dao.UserDao;
+import springbook.user.dao.UserDao;
 import springbook.user.domain.User;
 
 import java.sql.SQLException;
@@ -9,7 +9,7 @@ public class ApplicaitionTest {
         UserDao dao = new UserDao();
 
         User user = new User();
-        user.setId("whiteship");
+        user.setId("whiteship2");
         user.setName("백기선");
         user.setPassword("married");
 

@@ -1,4 +1,4 @@
-package dao;
+package springbook.user.dao;
 
 import springbook.user.domain.User;
 
@@ -8,9 +8,8 @@ public class UserDao {
     String url = "jdbc:mysql://localhost:3306/spring";
     String userName = "root";
     String password = "12341234";
-    public void add(User user) throws ClassNotFoundException, SQLException {
-        //Class.forName("com.mysql.jdbc.Driver");
-        Connection c = DriverManager.getConnection(url, userName, password);
+    public void add(User user) throws  SQLException {
+        Connection c = this.getCollection();
 
         PreparedStatement ps = c.prepareStatement(
                 "insert into user(id, name, password) values(?,?,?)");
@@ -24,9 +23,8 @@ public class UserDao {
         c.close();
     }
 
-    public User get(String id) throws ClassNotFoundException, SQLException {
-        //Class.forName("com.mysql.jdbc.Driver");
-        Connection c = DriverManager.getConnection(url, userName, password);
+    public User get(String id) throws  SQLException {
+        Connection c = this.getCollection();
 
         PreparedStatement ps = c.prepareStatement(
                 "select * from user where id = ?");
@@ -44,5 +42,9 @@ public class UserDao {
         c.close();
 
         return user;
+    }
+
+    private Connection getCollection() throws SQLException {
+        return DriverManager.getConnection(url, userName, password);
     }
 }
