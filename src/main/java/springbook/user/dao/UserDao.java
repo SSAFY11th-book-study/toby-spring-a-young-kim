@@ -10,8 +10,8 @@ public class UserDao {
     final static String url = "jdbc:mysql://localhost:3306/spring";
     final static String userName = "root";
     final static String password = "12341234";
-    public UserDao(){
-        connectionMaker = new DConnectionMaker();
+    public UserDao(ConnectionMaker connectionMaker){
+        this.connectionMaker = new DConnectionMaker();
     }
     public void add(User user) throws  SQLException {
         Connection c = connectionMaker.makeConnection();
