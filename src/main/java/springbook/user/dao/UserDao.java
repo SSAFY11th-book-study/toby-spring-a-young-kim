@@ -6,15 +6,15 @@ import java.sql.*;
 
 
 public class UserDao {
-    private SimpleConnectionMaker simpleConnectionMaker;
+    private ConnectionMaker connectionMaker;
     final static String url = "jdbc:mysql://localhost:3306/spring";
     final static String userName = "root";
     final static String password = "12341234";
     public UserDao(){
-        simpleConnectionMaker = new SimpleConnectionMaker();
+        connectionMaker = new DConnectionMaker();
     }
     public void add(User user) throws  SQLException {
-        Connection c = simpleConnectionMaker.getConnection();
+        Connection c = connectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "insert into user(id, name, password) values(?,?,?)");
@@ -29,7 +29,7 @@ public class UserDao {
     }
 
     public User get(String id) throws  SQLException {
-        Connection c = simpleConnectionMaker.getConnection();
+        Connection c = connectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "select * from user where id = ?");

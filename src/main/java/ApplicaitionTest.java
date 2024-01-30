@@ -9,7 +9,7 @@ public class ApplicaitionTest {
         UserDao dao = new UserDao();
 
         User user = new User();
-        user.setId("whiteship2");
+        user.setId("whiteship3");
         user.setName("백기선");
         user.setPassword("married");
 
