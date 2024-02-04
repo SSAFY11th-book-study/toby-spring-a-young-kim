@@ -11,7 +11,7 @@ public class UserDao {
     final static String userName = "root";
     final static String password = "12341234";
     public UserDao(ConnectionMaker connectionMaker){
-        this.connectionMaker = new DConnectionMaker();
+        this.connectionMaker = connectionMaker;
     }
     public void add(User user) throws  SQLException {
         Connection c = connectionMaker.makeConnection();
