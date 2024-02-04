@@ -1,5 +1,7 @@
 package springbook.user.domain;
 
+import java.awt.event.MouseAdapter;
+
 public class User {
     String id, name, password;
 

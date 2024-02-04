@@ -7,11 +7,10 @@ import java.sql.SQLException;
 public class UserDaoTest {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
-        ConnectionMaker connectionMaker = new DConnectionMaker();
-        UserDao dao = new UserDao(connectionMaker);
+        UserDao dao = new DaoFactory().userDao();
 
         User user = new User();
-        user.setId("whiteship3");
+        user.setId("whiteship4");
         user.setName("백기선");
         user.setPassword("married");
 
