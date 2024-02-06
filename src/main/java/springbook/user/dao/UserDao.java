@@ -6,12 +6,18 @@ import java.sql.*;
 
 
 public class UserDao {
+    private static UserDao INSTANE;
     private ConnectionMaker connectionMaker;
     final static String url = "jdbc:mysql://localhost:3306/spring";
     final static String userName = "root";
     final static String password = "12341234";
-    public UserDao(ConnectionMaker connectionMaker){
+    private UserDao(ConnectionMaker connectionMaker){
         this.connectionMaker = connectionMaker;
+    }
+
+    public static synchronized  UserDao getInstance(){
+        if(INSTANE == null) INSTANE = new UserDao(???);
+        return INSTANE;
     }
     public void add(User user) throws  SQLException {
         Connection c = connectionMaker.makeConnection();

@@ -9,9 +9,14 @@ import java.sql.SQLException;
 public class UserDaoTest {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
-        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+        DaoFactory factory = new DaoFactory();
+        System.out.println(factory.userDao());
+        System.out.println(factory.userDao());
 
-        UserDao dao = context.getBean("userDao", UserDao.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+        System.out.println(context.getBean("userDao", UserDao.class));
+        System.out.println(context.getBean("userDao", UserDao.class));
+        /*UserDao dao = context.getBean("userDao", UserDao.class);
 
         User user = new User();
         user.setId("whiteship4");
@@ -25,6 +30,6 @@ public class UserDaoTest {
         User user2 = dao.get(user.getId());
         System.out.println(user2.getName());
         System.out.println(user2.getPassword());
-        System.out.println(user2.getId() + "조회 성공");
+        System.out.println(user2.getId() + "조회 성공");*/
     }
 }
