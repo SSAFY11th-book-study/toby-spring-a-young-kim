@@ -1,5 +1,6 @@
 package springbook.user.dao;
 
+import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import springbook.user.domain.User;
@@ -9,16 +10,26 @@ import java.sql.SQLException;
 public class UserDaoTest {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
+
         DaoFactory factory = new DaoFactory();
-        System.out.println(factory.userDao());
-        System.out.println(factory.userDao());
+        /*UserDao userDao = factory.userDao();
 
-        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
-        System.out.println(context.getBean("userDao", UserDao.class));
-        System.out.println(context.getBean("userDao", UserDao.class));
-        /*UserDao dao = context.getBean("userDao", UserDao.class);
+        System.out.println(factory.userDao());
+        System.out.println(factory.userDao());*/
 
-        User user = new User();
+        // 의존성 검색
+        UserDao userDao1 = factory.userDao();
+        System.out.println(userDao1.hashCode());
+        System.out.println(factory.userDao().hashCode());
+
+        System.out.println();
+        // 의존성 주입
+        ConnectionMaker connectionMaker = new DConnectionMaker();
+        UserDao userDao2 = factory.userDao2(connectionMaker);
+        System.out.println(userDao2.hashCode());
+        System.out.println(factory.userDao2(connectionMaker).hashCode());
+
+        /*User user = new User();
         user.setId("whiteship4");
         user.setName("백기선");
         user.setPassword("married");
