@@ -20,10 +20,9 @@ public class UserDaoTest {
 
         System.out.println();
         // 의존성 주입
-        ConnectionMaker connectionMaker = new DConnectionMaker();
-        UserDao userDao2 = factory.userDao(connectionMaker);
+        UserDao userDao2 = factory.userDao();
         System.out.println(userDao2.hashCode());
-        System.out.println(factory.userDao(connectionMaker).hashCode());
+        System.out.println(factory.userDao().hashCode());
 
         /*User user = new User();
         user.setId("whiteship4");

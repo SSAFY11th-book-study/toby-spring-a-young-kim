@@ -7,7 +7,8 @@ import java.sql.*;
 
 
 public class UserDao {
-    final private ConnectionMaker connectionMaker;
+
+    private ConnectionMaker connectionMaker;
     final static String url = "jdbc:mysql://localhost:3306/spring";
     final static String userName = "root";
     final static String password = "12341234";
@@ -18,6 +19,10 @@ public class UserDao {
     public UserDao(){
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
         this.connectionMaker = context.getBean("connectionMaker", ConnectionMaker.class);
+    }
+
+    public void setConnectionMaker(ConnectionMaker connectionMaker) {
+        this.connectionMaker = connectionMaker;
     }
 
     public void add(User user) throws  SQLException {
