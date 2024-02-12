@@ -12,22 +12,18 @@ public class UserDaoTest {
 
 
         DaoFactory factory = new DaoFactory();
-        /*UserDao userDao = factory.userDao();
-
-        System.out.println(factory.userDao());
-        System.out.println(factory.userDao());*/
 
         // 의존성 검색
-        UserDao userDao1 = factory.userDao();
+        UserDao userDao1 = factory.userDao2();
         System.out.println(userDao1.hashCode());
-        System.out.println(factory.userDao().hashCode());
+        System.out.println(factory.userDao2().hashCode());
 
         System.out.println();
         // 의존성 주입
         ConnectionMaker connectionMaker = new DConnectionMaker();
-        UserDao userDao2 = factory.userDao2(connectionMaker);
+        UserDao userDao2 = factory.userDao(connectionMaker);
         System.out.println(userDao2.hashCode());
-        System.out.println(factory.userDao2(connectionMaker).hashCode());
+        System.out.println(factory.userDao(connectionMaker).hashCode());
 
         /*User user = new User();
         user.setId("whiteship4");
