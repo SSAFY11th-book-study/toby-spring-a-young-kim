@@ -3,6 +3,7 @@ package springbook.user.dao;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import springbook.user.domain.User;
 
+import javax.sql.DataSource;
 import java.sql.*;
 
 
@@ -25,6 +26,12 @@ public class UserDao {
         this.connectionMaker = connectionMaker;
     }
 
+    private DataSource dataSource;
+
+    public void setDataSource(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
+
     public void add(User user) throws  SQLException {
         Connection c = connectionMaker.makeConnection();
 
@@ -41,7 +48,8 @@ public class UserDao {
     }
 
     public User get(String id) throws  SQLException {
-        Connection c = connectionMaker.makeConnection();
+        //Connection c = connectionMaker.makeConnection();
+        Connection c = dataSource.getConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "select * from user where id = ?");

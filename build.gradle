@@ -20,6 +20,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
 	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
+	implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.2.0.RELEASE'
 
 }
 
