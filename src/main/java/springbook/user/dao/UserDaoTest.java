@@ -1,38 +1,33 @@
 package springbook.user.dao;
 
-import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
+import org.junit.Test;
+import org.junit.runner.JUnitCore;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import springbook.user.domain.User;
 
 import java.sql.SQLException;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
 public class UserDaoTest {
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-
-
-        DaoFactory factory = new DaoFactory();
-        UserDao dao = factory.userDao();
-
-
+    @Test
+    public void addAdnGet() throws SQLException {
+        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+        UserDao dao = context.getBean("userDao", UserDao.class);
         User user = new User();
-        user.setId("whiteship4");
-        user.setName("백기선");
-        user.setPassword("married");
+        user.setId("gyumee");
+        user.setName("박성철");
+        user.setPassword("springno1");
 
         dao.add(user);
 
-        System.out.println(user.getId() + "등록 성공");
-
         User user2 = dao.get(user.getId());
-        if (!user.getName().equals(user2.getName())) {
-            System.out.println("테스트 실패 (name)");
-        }
-        else if(!user.getPassword().equals(user2.getPassword())){
-            System.out.println("테스트 실패 (password)");
-        }
-        else{
-            System.out.println("조회 테스트 성공");
-        }
+        assertThat(user2.getName(), is(user.getName()));
+    }
+
+    public static void main(String[] args) {
+        JUnitCore.main("springbook.user.dao.UserDaoTest");
     }
 }
