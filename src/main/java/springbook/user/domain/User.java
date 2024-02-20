@@ -5,6 +5,14 @@ import java.awt.event.MouseAdapter;
 public class User {
     String id, name, password;
 
+    public User(){}
+
+    public User(String id, String name, String password){
+        this.id  = id;
+        this.name = name;
+        this.password = password;
+    }
+
     public String getId() {
         return id;
     }

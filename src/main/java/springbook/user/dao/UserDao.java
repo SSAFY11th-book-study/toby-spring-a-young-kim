@@ -17,19 +17,31 @@ public class UserDao {
     public UserDao(ConnectionMaker connectionMaker){
         this.connectionMaker = connectionMaker;
     }
-    public UserDao(){
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
-        this.connectionMaker = context.getBean("connectionMaker", ConnectionMaker.class);
+
+    public void deleteAll() throws SQLException {
+        Connection c = connectionMaker.makeConnection();
+
+        PreparedStatement ps = c.prepareStatement(
+                "delete from user");
+        ps.executeUpdate();
+
+        ps.close();
+        c.close();
     }
 
-    public void setConnectionMaker(ConnectionMaker connectionMaker) {
-        this.connectionMaker = connectionMaker;
-    }
+    public int getCount() throws SQLException {
+        Connection c = connectionMaker.makeConnection();
 
-    private DataSource dataSource;
+        PreparedStatement ps = c.prepareStatement(
+                "select count(*) from user");
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int count = rs.getInt(1);
 
-    public void setDataSource(DataSource dataSource){
-        this.dataSource = dataSource;
+        rs.close();
+        ps.close();
+        c.close();
+        return count;
     }
 
     public void add(User user) throws  SQLException {
@@ -48,8 +60,7 @@ public class UserDao {
     }
 
     public User get(String id) throws  SQLException {
-        //Connection c = connectionMaker.makeConnection();
-        Connection c = dataSource.getConnection();
+        Connection c = connectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "select * from user where id = ?");
