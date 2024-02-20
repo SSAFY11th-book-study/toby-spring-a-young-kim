@@ -3,9 +3,14 @@ package springbook.user.dao;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import springbook.user.domain.User;
 
 import java.sql.SQLException;
@@ -13,19 +18,32 @@ import java.sql.SQLException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = {DaoFactory.class})
 public class UserDaoTest {
+    // 자동 주입
+    @Autowired
+    private  ApplicationContext context;
     private UserDao dao;
     private User user1, user2, user3;
     @Before
+    public void setUp2(){
+        System.out.println(2);
+    }
+    @Before
     public void setUp(){
-        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
         this.dao = context.getBean("userDao", UserDao.class);
 
         this.user1 = new User("gyumee", "박성철", "springno1");
         this.user2 = new User("gyumee2", "박성철2", "springno2");
         this.user3 = new User("gyumee3", "박성철3", "springno3");
 
+        System.out.println(this.context);
+        System.out.println(this);
+        System.out.println(1);
     }
+
+
     @Test
     public void addAdnGet() throws SQLException {
 
