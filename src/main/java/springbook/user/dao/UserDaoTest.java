@@ -9,10 +9,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import springbook.user.domain.User;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -20,26 +23,27 @@ import static org.hamcrest.core.Is.is;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {DaoFactory.class})
+@DirtiesContext
 public class UserDaoTest {
-    // 자동 주입
+
     @Autowired
-    private  ApplicationContext context;
     private UserDao dao;
     private User user1, user2, user3;
     @Before
-    public void setUp2(){
-        System.out.println(2);
-    }
-    @Before
     public void setUp(){
-        this.dao = context.getBean("userDao", UserDao.class);
+        String url = "jdbc:mysql://localhost:3306/spring";
+        String userName = "root";
+        String password = "12341234";
+        DataSource dataSource = new SingleConnectionDataSource(
+                url, userName, password, true
+        );
+
+        dao.setDataSource(dataSource);
 
         this.user1 = new User("gyumee", "박성철", "springno1");
         this.user2 = new User("gyumee2", "박성철2", "springno2");
         this.user3 = new User("gyumee3", "박성철3", "springno3");
 
-        System.out.println(this.context);
-        System.out.println(this);
         System.out.println(1);
     }
 

@@ -30,6 +30,12 @@ public class UserDao {
         c.close();
     }
 
+    private DataSource dataSource;
+
+    public void setDataSource(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
+
     public int getCount() throws SQLException {
         Connection c = connectionMaker.makeConnection();
 
