@@ -54,12 +54,6 @@ public class UserDao {
         }
     }
 
-    private PreparedStatement makeStatement(Connection c) throws SQLException{
-        PreparedStatement ps;
-        ps = c.prepareStatement("delete from users");
-        return ps;
-    }
-
 
     public void setDataSource(DataSource dataSource){
         this.dataSource = dataSource;
@@ -108,18 +102,9 @@ public class UserDao {
     }
 
     public void add(User user) throws  SQLException {
-        Connection c = dataSource.getConnection();
 
-        PreparedStatement ps = c.prepareStatement(
-                "insert into user(id, name, password) values(?,?,?)");
-        ps.setString(1, user.getId());
-        ps.setString(2, user.getName());
-        ps.setString(3, user.getPassword());
-
-        ps.executeUpdate();
-
-        ps.close();
-        c.close();
+        StatementStrategy st = new AddStatement(user);
+        jdbcContextWithStatementStrategy(st);
     }
 
     public User get(String id) throws  SQLException {
