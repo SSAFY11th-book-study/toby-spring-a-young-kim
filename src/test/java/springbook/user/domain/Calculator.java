@@ -7,41 +7,30 @@ import java.nio.Buffer;
 
 public class Calculator{
     public Integer calcSum(String filePath) throws IOException{
-       BufferedReaderCallback sumCallback =
-               new BufferedReaderCallback() {
+       LineCallback<Integer> sumCallback =
+               new LineCallback<Integer>() {
                    @Override
-                   public Integer doSomethingWithReader(BufferedReader br) throws IOException {
-                       Integer sum = 0;
-                       String line = null;
-                       while((line = br.readLine()) != null){
-                           sum += Integer.valueOf(line);
-                       }
-                       return sum;
+                   public Integer doSomethingWithLine(String line, Integer value) {
+                       return value + Integer.valueOf(line);
                    }
                };
-        return fileReadTemplate(filePath, sumCallback);
-
+        return lineReadTemplate(filePath, sumCallback, 0);
     }
     public Integer calcMultiply(String filePath) throws IOException {
-        BufferedReaderCallback multitlyCallback =
-                new BufferedReaderCallback() {
-                    @Override
-                    public Integer doSomethingWithReader(BufferedReader br) throws IOException {
-                        Integer multipy = 1;
-                        String line = null;
-                        while ((line = br.readLine()) != null) {
-                            multipy *= Integer.valueOf(line);
-                        }
-                        return multipy;
-                    }
-                };
-        return fileReadTemplate(filePath, multitlyCallback);
+       LineCallback<Integer> mulLineCallback =
+               new LineCallback<Integer>() {
+                   @Override
+                   public Integer doSomethingWithLine(String line, Integer value) {
+                       return value * Integer.valueOf(line);
+                   }
+               };
+       return lineReadTemplate(filePath, mulLineCallback, 1);
     }
-    public Integer lineReadTemplate(String filePath, LineCallback callback, int initVal) throws IOException{
+    public <T> T lineReadTemplate(String filePath, LineCallback<T> callback, T initVal) throws IOException{
         BufferedReader br = null;
         try{
             br = new BufferedReader(new FileReader(filePath));
-            Integer res = initVal;
+            T res = initVal;
             String line = null;
             while((line = br.readLine()) != null){
                 res = callback.doSomethingWithLine(line, res);
@@ -60,6 +49,16 @@ public class Calculator{
                 }
             }
         }
+    }
+    public String concatenate(String filePath) throws IOException{
+        LineCallback<String> conLineCallback =
+                new LineCallback<String>() {
+                    @Override
+                    public String doSomethingWithLine(String line, String value) {
+                        return value + line;
+                    }
+                };
+        return lineReadTemplate(filePath, conLineCallback, "");
     }
     public Integer fileReadTemplate(String filePath, BufferedReaderCallback callback) throws  IOException{
         BufferedReader br = null;
