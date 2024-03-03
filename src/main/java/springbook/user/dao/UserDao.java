@@ -101,10 +101,18 @@ public class UserDao {
         }
     }
 
-    public void add(User user) throws  SQLException {
+    public void add(final User user) throws  SQLException {
+        jdbcContextWithStatementStrategy(new StatementStrategy(){
+            @Override
+            public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
+                PreparedStatement ps = c.prepareStatement("insert into user(id, name, password) values(?, ?, ?)");
 
-        StatementStrategy st = new AddStatement(user);
-        jdbcContextWithStatementStrategy(st);
+                ps.setString(1, user.getId());
+                ps.setString(2, user.getName());
+                ps.setString(3, user.getPassword());
+                return ps;
+            }
+        });
     }
 
     public User get(String id) throws  SQLException {
@@ -130,4 +138,6 @@ public class UserDao {
         if(user == null) throw new EmptyResultDataAccessException(1);
         return user;
     }
+
+
 }
